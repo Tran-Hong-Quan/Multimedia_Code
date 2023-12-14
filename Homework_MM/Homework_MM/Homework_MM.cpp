@@ -20,7 +20,7 @@ void Plot(std::vector<int> data, std::string name);
 
 int main(int argc, char** argv)
 {
-	cv::Mat image = cv::imread("Histogram/1.jpg");
+	cv::Mat image = cv::imread("Noise/1.jpg");
 
 	if (image.empty()) {
 		std::cerr << "Cannot read image" << std::endl;
@@ -34,24 +34,27 @@ int main(int argc, char** argv)
 	cv::Mat sobelImage;
 	cv::Mat sobelGradient;
 	cv::Mat histogramImage;
+	cv::Mat unsharpImg;
 
-	grayscaleImage = Grayscale(image);
+	//grayscaleImage = Grayscale(image);
 	//bluredImage = AverageFillter(image);
-	//medianImage = MedianFillter(image);
+	medianImage = MedianFillter(image);
 	//medianImage = SoftMedianFillter(image);
 	//laplaceImage = LaplacianFillter(image);
 	//sobelImage = SobelFillter(image);
-	histogramImage = Histogram(image);
+	//histogramImage = Histogram(image);
 	//histogramImage = HistogramColor(image);
+	//unsharpImg = image + (image - bluredImage) * 21;
 
 	cv::imshow("Original Image", image);
-	cv::imshow("Grayscale Image", grayscaleImage);
+	//cv::imshow("Grayscale Image", grayscaleImage);
 	//cv::imshow("Blur Image", bluredImage);
-	//cv::imshow("Median Image", image);
+	cv::imshow("Median Image", medianImage);
 	//cv::imshow("Laplace Image", laplaceImage);
 	//cv::imshow("Sobel Image", sobelImage);
 	//cv::imshow("Sobel Gradient", sobelGradient);
-	cv::imshow("Histogram Image", histogramImage);
+	//cv::imshow("Histogram Image", histogramImage);
+	//cv::imshow("Unsharp Image", unsharpImg);
 
 	cv::waitKey(0);
 
@@ -134,7 +137,7 @@ cv::Mat MedianFillter(cv::Mat image) {
 						bList.push_back(0);
 						continue;
 					}
-					auto pixel = res.at<cv::Vec3b>(imageX, imageY);
+					auto pixel = image.at<cv::Vec3b>(imageX, imageY);
 					rList.push_back(pixel[2]);
 					gList.push_back(pixel[1]);
 					bList.push_back(pixel[0]);
